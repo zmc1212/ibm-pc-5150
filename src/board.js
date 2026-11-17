@@ -86,7 +86,7 @@
     M.white = new THREE.MeshStandardMaterial({ color: 0xf2f0ea, roughness: 0.4 });
     M.chip = new THREE.MeshStandardMaterial({ color: 0x111318, roughness: 0.4, metalness: 0.2 });
     M.teal = new THREE.MeshStandardMaterial({
-      map: LS8.Textures.pcb("#2e6e62", "rgba(14,40,34,0.5)", "IBM 5150", "PERSONAL COMPUTER · PLANAR"),
+      map: LS8.Textures.pcb("#2e6e62", "rgba(104,182,158,0.42)", "IBM 5150", "PERSONAL COMPUTER · PLANAR"),
       roughness: 0.62
     });
 
@@ -98,25 +98,24 @@
 
     g.add(mesh(new THREE.BoxGeometry(2.5, 0.04, 1.62), M.teal, 0, 0.02, 0));
 
-    // RAM 插座：4 组 × 9 座（右上）
+    // RAM 插座：4 组 × 9 座（与 bank 零件对齐）
     for (var b = 0; b < 4; b++) {
       for (var c = 0; c < 9; c++) {
-        g.add(mesh(new THREE.BoxGeometry(0.16, 0.02, 0.06), M.dark, 0.5 + c * 0.19, 0.05, -0.62 + b * 0.11));
+        g.add(mesh(new THREE.BoxGeometry(0.11, 0.02, 0.055), M.dark, 0.93 + c * 0.12, 0.05, -0.62 + b * 0.11));
       }
     }
     // 5 个 ISA 插槽（立式黑色连接器，沿后缘）
     for (var s = 0; s < 5; s++) {
       g.add(mesh(new THREE.BoxGeometry(0.16, 0.24, 0.05), M.plastic, -1.05 + s * 0.44, 0.16, -0.62));
     }
-    // DIN 键盘座（后缘左）
-    g.add(mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.05, 12), M.plastic, -1.12, 0.055, -0.3).rotateX(Math.PI / 2));
+    // DIN 键盘座 + 磁带 DIN（后缘左，ISA 槽位外侧）
+    g.add(mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.05, 12), M.plastic, -1.25, 0.055, -0.62).rotateX(Math.PI / 2));
+    g.add(mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.045, 10), M.plastic, -1.42, 0.05, -0.62).rotateX(Math.PI / 2));
     // 电源插头 ×2（后缘右）
     g.add(mesh(new THREE.BoxGeometry(0.16, 0.06, 0.08), M.plastic, 1.1, 0.05, -0.58));
     g.add(mesh(new THREE.BoxGeometry(0.16, 0.06, 0.08), M.plastic, 1.28, 0.05, -0.58));
     // 扬声器接线头
     g.add(mesh(new THREE.BoxGeometry(0.06, 0.045, 0.05), M.dark, 1.0, 0.05, 0.55));
-    // 前缘 62 针金手指（扩展用）
-    g.add(mesh(new THREE.BoxGeometry(1.9, 0.018, 0.06), M.gold, -0.1, 0.032, 0.74));
     // 小散件
     for (var i = 0; i < 12; i++) {
       g.add(mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.03, 8), M.dark, -0.9 + (i % 6) * 0.36, 0.05, 0.3 + Math.floor(i / 6) * 0.14));

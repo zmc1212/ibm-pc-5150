@@ -7,7 +7,7 @@
       cam: { theta: -1.5, phi: 0.95, r: 3.8, target: [0.95, 0.15, -0.3] }, drift: 0.015 },
     { id: "cards", name: "ISA · MDA + FDC", dur: 3.6, dot: "teal",
       cam: { theta: -1.9, phi: 1.0, r: 3.8, target: [-0.5, 0.3, -0.55] }, drift: 0.012 },
-    { id: "io", name: "IO · SPEAKER BATT", dur: 2.8, dot: "teal",
+    { id: "io", name: "IO · SPEAKER WIRE", dur: 2.8, dot: "teal",
       cam: { theta: -2.6, phi: 0.98, r: 3.6, target: [1.3, 0.15, 0.4] }, drift: 0.012 },
     { id: "power", name: "POWER ON · +5V", dur: 2.4, dot: "green",
       cam: { theta: -1.0, phi: 0.88, r: 3.6, target: [0.1, 0.15, 0.08] }, drift: 0.012 },
@@ -22,7 +22,7 @@
   var PINNED = {
     banks: function () {
       return [
-        { id: "p-b1", obj: LS8.Parts.group("bank1"), text: "9 x 4164 · 8K" },
+        { id: "p-b1", obj: LS8.Parts.group("bank1"), text: "9 x 4116 · 16K" },
         { id: "p-b4", obj: LS8.Parts.group("bank4"), text: "BANK 4", tone: "white" }
       ];
     },
@@ -74,14 +74,15 @@
     idx = i; pt = 0;
     var ph = phases[i];
     if (ph.id === "core") {
-      LS8.Parts.begin(0, ["cpu", "fpu", "t8253", "t8237", "t8259", "t8255", "bios1", "bios2", "xtal", "tray"]);
+      LS8.Parts.begin(0, ["cpu", "fpu", "t8253", "t8237", "t8259", "t8255", "t8284", "t8288",
+        "bios1", "bios2", "bios3", "bios4", "bios5", "xtal", "tray"]);
       LS8.Labels.clearAnnounce();
     } else if (ph.id === "banks") {
       LS8.Parts.begin(0, ["bank1", "bank2", "bank3", "bank4"]);
     } else if (ph.id === "cards") {
       LS8.Parts.begin(0, ["mda", "fdc"]);
     } else if (ph.id === "io") {
-      LS8.Parts.begin(0, ["batt", "spk"]);
+      LS8.Parts.begin(0, ["spk"]);
       LS8.Cables.begin(0);
     } else if (ph.id === "power") {
       state.power = true;
@@ -107,9 +108,9 @@
 
   var BOOT_SCRIPT = [
     [0.6, "The IBM Personal Computer Basic"],
-    [1.6, "C1.10 Copyright IBM Corp 1981"],
+    [1.6, "Version C1.10 Copyright IBM Corp 1981"],
     [2.6, "61404 Bytes free"],
-    [3.6, "Ready"]
+    [3.6, "Ok"]
   ];
 
   function update(dt) {
@@ -158,9 +159,9 @@
     dom.clk.textContent = state.power ? "4.77 MHZ" : "—";
     dom.ram.textContent = Math.floor(state.memKb) + " KB";
     var partsN = LS8.Parts.seatedCount;
-    dom.parts.textContent = partsN + " / 18";
+    dom.parts.textContent = partsN + " / 22";
     var label = ph.name;
-    if (ph.id === "core" || ph.id === "banks") label = ph.name + " · " + partsN + " / 18";
+    if (ph.id === "core" || ph.id === "banks") label = ph.name + " · " + partsN + " / 22";
     dom.pill.textContent = label;
     dom.dot.className = ph.dot;
 

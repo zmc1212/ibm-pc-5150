@@ -50,7 +50,7 @@
 
     function isaCard(col, label) {
       var g = new THREE.Group();
-      var tex = LS8.Textures.pcb(col, "rgba(8,20,16,0.5)", "", "");
+      var tex = LS8.Textures.pcb(col, "rgba(120,200,165,0.45)", "", "");
       g.add(mesh(new THREE.BoxGeometry(0.02, 0.34, 0.3), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 }), 0, 0, 0));
       g.add(mesh(new THREE.BoxGeometry(0.024, 0.07, 0.3), M.gold, 0, -0.18, 0));
       g.add(mesh(new THREE.BoxGeometry(0.03, 0.09, 0.1), M.chip, 0, 0.07, -0.07));
@@ -67,37 +67,48 @@
       return g;
     }
 
-    /* 1 · Intel 8088 */
+    /* 1 · Intel 8088（DIP-40） */
     def("cpu", "INTEL 8088", "4.77 MHZ", [-0.35, 0.115, 0.0], 0.06, 0.12,
-      function () { return dip(0.38, "INTEL 8088", "L4130025", 14); }, 0);
-    /* 2 · 8087 FPU 空座 */
+      function () { return dip(0.38, "INTEL 8088", "L4130025", 20); }, 0);
+    /* 2 · 8087 FPU 空座（DIP-40） */
     def("fpu", "8087 FPU", "SOCKET", [0.02, 0.115, 0.0], -0.06, 0.12,
-      function () { return dip(0.36, "8087", "NPU", 14); }, 1);
-    /* 3-6 · Intel 支援芯片 */
+      function () { return dip(0.36, "8087", "NPU", 20); }, 1);
+    /* 3-6 · Intel 支援芯片（真实 DIP 引脚数：8253=24 / 8237=40 / 8259=28 / 8255=40） */
     def("t8253", "8253 TIMER", "SPEAKER CLK", [0.35, 0.115, -0.1], 0.1, 0.1,
-      function () { return dip(0.24, "8253-5", "TIMER", 6); }, 2);
+      function () { return dip(0.24, "8253-5", "TIMER", 12); }, 2);
     def("t8237", "8237 DMA", "4 CH", [0.62, 0.115, -0.02], -0.08, 0.1,
-      function () { return dip(0.26, "8237-5", "DMA", 7); }, 3);
+      function () { return dip(0.26, "8237-5", "DMA", 20); }, 3);
     def("t8259", "8259 PIC", "8 LEVEL", [0.88, 0.115, 0.06], 0.12, 0.1,
-      function () { return dip(0.24, "8259A", "PIC", 6); }, 4);
+      function () { return dip(0.24, "8259A", "PIC", 14); }, 4);
     def("t8255", "8255 PPI", "PARALLEL", [-0.72, 0.115, 0.2], -0.1, 0.1,
-      function () { return dip(0.24, "8255A-5", "PPI", 6); }, 5);
-    /* 7-8 · BIOS ROM ×2 */
-    def("bios1", "BIOS ROM", "8K · IBM", [1.08, 0.115, -0.2], 0.05, 0.1,
-      function () { return dip(0.28, "IBM BIOS", "1501311", 8); }, 6);
-    def("bios2", "BASIC ROM", "32K · IBM", [1.08, 0.115, -0.02], -0.05, 0.1,
-      function () { return dip(0.3, "IBM BASIC", "C1.10", 9); }, 7);
-    /* 9 · 晶振 */
+      function () { return dip(0.24, "8255A-5", "PPI", 20); }, 5);
+    /* 6b · 8284 时钟发生器 + 8288 总线控制器 */
+    def("t8284", "8284 CLOCK GEN", "DIP-18 · ÷3 CRYSTAL", [-0.75, 0.115, -0.16], -0.04, 0.1,
+      function () { return dip(0.24, "8284A", "CLK GEN", 9); }, 5.5);
+    def("t8288", "8288 BUS CTRL", "DIP-20 · BUS DRIVER", [-0.4, 0.115, 0.26], 0.05, 0.1,
+      function () { return dip(0.24, "8288", "BUS CTRL", 10); }, 6);
+    /* 7-11 · ROM ×5：BIOS 8K（U33）+ CASSETTE BASIC 8K ×4（U29-U32，真实为 5 颗 DIP-24） */
+    def("bios1", "BIOS ROM", "8K · IBM · U33", [1.08, 0.115, -0.2], 0.05, 0.1,
+      function () { return dip(0.26, "IBM BIOS", "1501311", 12); }, 6.5);
+    def("bios2", "BASIC ROM 1", "8K · IBM · U32", [1.08, 0.115, -0.02], -0.05, 0.1,
+      function () { return dip(0.26, "IBM BASIC", "C1.10", 12); }, 7);
+    def("bios3", "BASIC ROM 2", "8K · IBM · U31", [1.08, 0.115, 0.16], 0.04, 0.1,
+      function () { return dip(0.26, "IBM BASIC", "C1.10", 12); }, 7.2);
+    def("bios4", "BASIC ROM 3", "8K · IBM · U30", [1.08, 0.115, 0.34], -0.04, 0.1,
+      function () { return dip(0.26, "IBM BASIC", "C1.10", 12); }, 7.4);
+    def("bios5", "BASIC ROM 4", "8K · IBM · U29", [1.08, 0.115, 0.52], 0.05, 0.1,
+      function () { return dip(0.26, "IBM BASIC", "C1.10", 12); }, 7.6);
+    /* 12 · 晶振 */
     def("xtal", "CRYSTAL 14.318", "MHZ", [-0.05, 0.115, -0.2], 0.35, 0.1,
       function () {
         var g = new THREE.Group();
         g.add(mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.09, 10), M.silver, 0, 0, 0).rotateX(Math.PI / 2));
         return g;
       }, 8);
-    /* 10-13 · RAM banks ×4 */
+    /* 13-16 · RAM banks ×4（9 × 4116 · 每组 16KB，POST 数到 64K） */
     for (var b = 0; b < 4; b++) {
       (function (bi) {
-        def("bank" + (bi + 1), "RAM BANK " + (bi + 1), "9 x 4164 · 8K", [0.93, 0.115, -0.62 + bi * 0.11], 0, 0.1,
+        def("bank" + (bi + 1), "RAM BANK " + (bi + 1), "9 x 4116 · 16K", [0.93, 0.115, -0.62 + bi * 0.11], 0, 0.1,
           function () { return ramBank(bi); }, bi);
       })(b);
     }
@@ -108,16 +119,8 @@
     def("fdc", "FLOPPY CTRL", "ISA SLOT 2", [-0.17, 0.36, -0.62], 0, 0.36,
       function () { return isaCard("#2b2f38", "FDC"); },
       1, { mid: [-0.17, 1.55, -0.62] });
-    /* 16 · 电池 */
-    def("batt", "RTC BATTERY", "6V LITH", [1.32, 0.115, 0.3], -0.15, 0.1,
-      function () {
-        var g = new THREE.Group();
-        g.add(mesh(new THREE.BoxGeometry(0.1, 0.05, 0.14),
-          new THREE.MeshStandardMaterial({ color: 0x2f4fa8, roughness: 0.45 }), 0, 0, 0));
-        return g;
-      }, 0);
-    /* 17 · 扬声器 */
-    def("spk", "SPEAKER 2.25 IN", "8 OHM", [1.48, 0.115, 0.52], 0.3, 0.1,
+    /* 17 · 扬声器（在机箱前左侧，由导线接到板上接线头） */
+    def("spk", "SPEAKER 2.25 IN", "8 OHM · CASE-MOUNTED", [1.75, 0.115, 1.05], 0.3, 0.1,
       function () {
         var g = new THREE.Group();
         g.add(mesh(new THREE.CylinderGeometry(0.075, 0.085, 0.05, 16), M.plastic, 0, 0.025, 0));

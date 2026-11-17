@@ -1,7 +1,7 @@
 # IBM PC 5150（1981）装配模拟
 
 复刻 IBM Personal Computer 5150 主板：Intel 8088 @4.77MHz、8253/8237/8259/8255、
-IBM BIOS/BASIC ROM、4 组 ×9 片 4164 内存、5 个 ISA 插槽（MDA/FDC 卡垂直插入）、
+IBM BIOS 8K + CASSETTE BASIC 8K ×4 共 5 颗 ROM、4 组 ×9 片 4116 内存、8284/8288 时钟与总线芯片、5 个 ISA 插槽（MDA/FDC 卡垂直插入）、
 键盘 DIN、扬声器。POST 阶段内存计数 0→64KB，最后启动 Cassette BASIC。
 
 ## 启动方式
@@ -14,6 +14,6 @@ IBM BIOS/BASIC ROM、4 组 ×9 片 4164 内存、5 个 ISA 插槽（MDA/FDC 卡�
 
 ## 验收
 按 6（post）：内存计数到 64KB + BEEP；按 7（boot）：白色文字屏打出
-"The IBM Personal Computer Basic ... Ready"。控制台无错误。
+"The IBM Personal Computer Basic ... Ok"。控制台无错误。
 
 音效：首次点击/按键自动启用（合成音，零素材），右上角 🔊/🔇 可切换；零件落座、阶段切换、打字均配音。

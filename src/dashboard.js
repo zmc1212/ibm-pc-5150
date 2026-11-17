@@ -17,7 +17,7 @@
 
   function buildDOM() {
     document.getElementById("dash").innerHTML =
-      '<section class="panel"><header><i class="dot" style="background:#5b8cff"></i><b>POST · MEMORY</b><span class="meta">4 BANKS x 9 x 4164</span></header>' +
+      '<section class="panel"><header><i class="dot" style="background:#5b8cff"></i><b>POST · MEMORY</b><span class="meta">4 BANKS x 9 x 4116</span></header>' +
       '<div class="body"><div style="display:flex;align-items:center;gap:10px">' +
       '<div style="font-size:26px;font-weight:800;line-height:1" id="mem-kb">0</div>' +
       '<div style="font-size:9px;color:rgba(232,228,216,.6)">KB<br>OK</div>' +

@@ -72,25 +72,33 @@
     return makeTex(512, 384, function (ctx, w, h) {
       ctx.fillStyle = base;
       ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = trace;
-      ctx.lineWidth = 2;
-      var n = 26, seed = 7;
+      var seed = 7;
       function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-      for (var i = 0; i < n; i++) {
+      /* 正交铜箔走线 + 环形过孔/焊点 */
+      ctx.strokeStyle = trace;
+      ctx.lineWidth = 2.2;
+      ctx.lineCap = "round";
+      for (var i = 0; i < 30; i++) {
         ctx.beginPath();
         var x = rnd() * w, y = rnd() * h;
         ctx.moveTo(x, y);
-        for (var s = 0; s < 4; s++) {
-          if (rnd() > 0.5) x += (rnd() - 0.5) * 140; else y += (rnd() - 0.5) * 100;
+        for (var s = 0; s < 3; s++) {
+          if (s % 2 === 0) x += (rnd() > 0.5 ? 1 : -1) * (50 + rnd() * 150);
+          else y += (rnd() > 0.5 ? 1 : -1) * (35 + rnd() * 110);
           ctx.lineTo(x, y);
         }
         ctx.stroke();
+        ctx.fillStyle = trace;
+        ctx.beginPath(); ctx.arc(x, y, 4.4, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = base;
+        ctx.beginPath(); ctx.arc(x, y, 2.0, 0, Math.PI * 2); ctx.fill();
       }
-      ctx.fillStyle = "rgba(255,255,255,0.28)";
       for (var p = 0; p < 90; p++) {
-        ctx.beginPath();
-        ctx.arc(rnd() * w, rnd() * h, 2.2, 0, Math.PI * 2);
-        ctx.fill();
+        var px = rnd() * w, py2 = rnd() * h;
+        ctx.fillStyle = trace;
+        ctx.beginPath(); ctx.arc(px, py2, 3.4, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = base;
+        ctx.beginPath(); ctx.arc(px, py2, 1.5, 0, Math.PI * 2); ctx.fill();
       }
       if (silk) {
         ctx.fillStyle = "rgba(255,255,255,0.85)";
