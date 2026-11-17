@@ -73,6 +73,7 @@
   var bootLines = [];
   function bootType(line) {
     bootLines.push(line);
+    if (LS8.Audio) LS8.Audio.play("type");
     if (bootLines.length > 6) bootLines.shift();
   }
   function bootClear() { bootLines = []; }
