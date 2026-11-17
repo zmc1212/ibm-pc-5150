@@ -15,3 +15,5 @@ IBM BIOS/BASIC ROM、4 组 ×9 片 4164 内存、5 个 ISA 插槽（MDA/FDC 卡�
 ## 验收
 按 6（post）：内存计数到 64KB + BEEP；按 7（boot）：白色文字屏打出
 "The IBM Personal Computer Basic ... Ready"。控制台无错误。
+
+音效：首次点击/按键自动启用（合成音，零素材），右上角 🔊/🔇 可切换；零件落座、阶段切换、打字均配音。
