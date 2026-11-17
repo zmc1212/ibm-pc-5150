@@ -75,14 +75,14 @@
     var ph = phases[i];
     if (ph.id === "core") {
       LS8.Parts.begin(0, ["cpu", "fpu", "t8253", "t8237", "t8259", "t8255", "t8284", "t8288",
-        "bios1", "bios2", "bios3", "bios4", "bios5", "xtal", "tray"]);
+        "bios1", "bios2", "bios3", "bios4", "bios5", "xtal", "tray"], ph.dur - 1.4);
       LS8.Labels.clearAnnounce();
     } else if (ph.id === "banks") {
-      LS8.Parts.begin(0, ["bank1", "bank2", "bank3", "bank4"]);
+      LS8.Parts.begin(0, ["bank1", "bank2", "bank3", "bank4"], ph.dur - 1.4);
     } else if (ph.id === "cards") {
-      LS8.Parts.begin(0, ["mda", "fdc"]);
+      LS8.Parts.begin(0, ["mda", "fdc"], ph.dur - 1.4);
     } else if (ph.id === "io") {
-      LS8.Parts.begin(0, ["spk"]);
+      LS8.Parts.begin(0, ["spk"], ph.dur - 1.4);
       LS8.Cables.begin(0);
     } else if (ph.id === "power") {
       state.power = true;
