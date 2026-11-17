@@ -13,6 +13,10 @@ IBM BIOS 8K + CASSETTE BASIC 8K ×4 共 5 颗 ROM、4 组 ×9 片 4116 内存、
 （core → banks → cards → io → power → post → boot → home）。
 
 ## 验收
+
+**自然播放回归（必查）**：刷新页面后不碰键盘，只看装配——已落座零件必须
+全程留在板上（只增不减），cards 阶段后计数 22，home 阶段全部飞出后循环重启。
+seek 跳段会 sealAll 掩盖飞行 bug，不能用 seek 代替此项。
 按 6（post）：内存计数到 64KB + BEEP；按 7（boot）：白色文字屏打出
 "The IBM Personal Computer Basic ... Ok"。控制台无错误。
 
