@@ -1,42 +1,42 @@
 /* 时间线：核心 → 内存组 → ISA 卡 → 外设 → 上电 → POST → BASIC → 归位 */
 (function (LS8) {
   var phases = [
-    { id: "core", name: "CORE LOGIC · 8088", dur: 7.0, dot: "blue",
+    { id: "core", name: "核心芯片 · 8088", dur: 7.0, dot: "blue",
       cam: { theta: -0.62, phi: 0.96, r: 6.2, target: [0.1, 0.2, 0.08] }, drift: 0.04 },
-    { id: "banks", name: "MEMORY BANKS · 36", dur: 4.4, dot: "blue",
+    { id: "banks", name: "内存组 · 36 × 4116", dur: 4.4, dot: "blue",
       cam: { theta: -1.5, phi: 0.95, r: 3.8, target: [0.95, 0.15, -0.3] }, drift: 0.015 },
-    { id: "cards", name: "ISA · MDA + FDC", dur: 3.6, dot: "teal",
+    { id: "cards", name: "ISA 插卡 · MDA + FDC", dur: 3.6, dot: "teal",
       cam: { theta: -1.9, phi: 1.0, r: 3.8, target: [-0.5, 0.3, -0.55] }, drift: 0.012 },
-    { id: "io", name: "IO · SPEAKER WIRE", dur: 2.8, dot: "teal",
+    { id: "io", name: "外设接线 · 扬声器", dur: 2.8, dot: "teal",
       cam: { theta: -2.6, phi: 0.98, r: 3.6, target: [1.3, 0.15, 0.4] }, drift: 0.012 },
-    { id: "power", name: "POWER ON · +5V", dur: 2.4, dot: "green",
+    { id: "power", name: "通电 · +5V", dur: 2.4, dot: "green",
       cam: { theta: -1.0, phi: 0.88, r: 3.6, target: [0.1, 0.15, 0.08] }, drift: 0.012 },
-    { id: "post", name: "POST · RAM COUNT", dur: 4.4, dot: "yellow",
+    { id: "post", name: "POST 自检 · 内存计数", dur: 4.4, dot: "yellow",
       cam: { theta: -1.55, phi: 1.02, r: 4.2, target: [0.1, 0.15, 0.08] }, drift: 0.01 },
-    { id: "boot", name: "BOOT · CASSETTE BASIC", dur: 4.6, dot: "pink",
+    { id: "boot", name: "启动 · CASSETTE BASIC", dur: 4.6, dot: "pink",
       cam: { theta: -0.7, phi: 0.94, r: 5.4, target: [0.1, 0.15, 0.08] }, drift: 0.02 },
-    { id: "home", name: "PARTS HOME", dur: 5.0, dot: "yellow",
+    { id: "home", name: "零件归位", dur: 5.0, dot: "yellow",
       cam: { theta: -0.62, phi: 1.0, r: 7.6, target: [0.1, 0.25, 0.1] }, drift: 0.03 }
   ];
 
   var PINNED = {
     banks: function () {
       return [
-        { id: "p-b1", obj: LS8.Parts.group("bank1"), text: "9 x 4116 · 16K" },
-        { id: "p-b4", obj: LS8.Parts.group("bank4"), text: "BANK 4", tone: "white" }
+        { id: "p-b1", obj: LS8.Parts.group("bank1"), text: "内存组 1", sub: "9 x 4116 · 16K" },
+        { id: "p-b4", obj: LS8.Parts.group("bank4"), text: "内存组 4", sub: "RAM BANK 4", tone: "white" }
       ];
     },
     cards: function () {
       return [
-        { id: "p-md", obj: LS8.Parts.group("mda"), text: "MDA · IBM" },
-        { id: "p-fd", obj: LS8.Parts.group("fdc"), text: "FDC · NECDIP", tone: "white" }
+        { id: "p-md", obj: LS8.Parts.group("mda"), text: "单色显示适配器", sub: "IBM MDA" },
+        { id: "p-fd", obj: LS8.Parts.group("fdc"), text: "软盘适配器", sub: "FDC · NECDIP", tone: "white" }
       ];
     },
     post: function () {
-      return [{ id: "p-cpu", obj: LS8.Parts.group("cpu"), text: "POST · 64K CHECK" }];
+      return [{ id: "p-cpu", obj: LS8.Parts.group("cpu"), text: "POST 内存自检", sub: "POST · 64K CHECK" }];
     },
     boot: function () {
-      return [{ id: "p-bio", obj: LS8.Parts.group("bios1"), text: "BIOS · F0000" }];
+      return [{ id: "p-bio", obj: LS8.Parts.group("bios1"), text: "BIOS 启动", sub: "BIOS · F0000" }];
     }
   };
 
@@ -154,7 +154,7 @@
     }
 
     /* DOM */
-    dom.mode.textContent = state.bootOn ? "BASIC" : (state.postOn ? "POST" : (state.power ? "READY" : "OFF"));
+    dom.mode.textContent = state.bootOn ? "运行 BASIC" : (state.postOn ? "自检 POST" : (state.power ? "就绪 READY" : "关机 OFF"));
     dom.mode.className = "mode" + (state.bootOn ? " lock" : "");
     dom.clk.textContent = state.power ? "4.77 MHZ" : "—";
     dom.ram.textContent = Math.floor(state.memKb) + " KB";

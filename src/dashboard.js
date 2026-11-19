@@ -17,27 +17,27 @@
 
   function buildDOM() {
     document.getElementById("dash").innerHTML =
-      '<section class="panel"><header><i class="dot" style="background:#5b8cff"></i><b>POST · MEMORY</b><span class="meta">4 BANKS x 9 x 4116</span></header>' +
+      '<section class="panel"><header><i class="dot" style="background:#5b8cff"></i><b>内存计数</b><span class="meta">POST · 4 BANKS x 9 x 4116</span></header>' +
       '<div class="body"><div style="display:flex;align-items:center;gap:10px">' +
       '<div style="font-size:26px;font-weight:800;line-height:1" id="mem-kb">0</div>' +
       '<div style="font-size:9px;color:rgba(232,228,216,.6)">KB<br>OK</div>' +
       '<div style="flex:1;display:grid;grid-template-columns:repeat(9,1fr);gap:2px" id="mem-grid"></div>' +
       '</div>' +
-      '<div class="axis"><span id="mem-bank">BANK —</span><span id="mem-test">—</span></div></div></section>' +
+      '<div class="axis"><span id="mem-bank">待测 —</span><span id="mem-test">—</span></div></div></section>' +
 
-      '<section class="panel"><header><i class="dot" style="background:#e8c53c"></i><b>ISA · 5 SLOTS</b><span class="meta">62 PIN CARD EDGE</span></header>' +
+      '<section class="panel"><header><i class="dot" style="background:#e8c53c"></i><b>ISA 插槽 × 5</b><span class="meta">62 PIN CARD EDGE</span></header>' +
       '<div class="body"><div id="isa-rows"></div></div></section>' +
 
-      '<section class="panel"><header><i class="dot" style="background:#57c46b"></i><b>CPU 8088</b><span class="meta">4.77 MHZ · 14.318 / 3</span></header>' +
+      '<section class="panel"><header><i class="dot" style="background:#57c46b"></i><b>处理器 8088</b><span class="meta">4.77 MHZ · 14.318 / 3</span></header>' +
       '<div class="body"><div class="iq-stats" style="height:80px">' +
       '<div class="r"><span>CS:IP</span><b id="cpu-ip">F000:FFF0</b></div>' +
       '<div class="r"><span>AX</span><b id="cpu-ax">0000</b></div>' +
       '<div class="r"><span>SP</span><b id="cpu-sp">0000</b></div>' +
-      '<div class="r"><span>TICKS</span><b id="cpu-tk">000000</b></div>' +
+      '<div class="r"><span>节拍 TICKS</span><b id="cpu-tk">000000</b></div>' +
       '<div class="iq-chips" style="margin-top:auto"><span class="chip" id="ch-post">POST</span><span class="chip" id="ch-beep">BEEP</span><span class="chip" id="ch-boot">BOOT</span></div>' +
       '</div></div></section>' +
 
-      '<section class="panel"><header><i class="dot" style="background:#e84f8e"></i><b>BOOT</b><span class="meta">BIOS · CASSETTE BASIC</span></header>' +
+      '<section class="panel"><header><i class="dot" style="background:#e84f8e"></i><b>启动屏幕</b><span class="meta">BIOS · CASSETTE BASIC</span></header>' +
       '<div class="body"><canvas id="c-boot"></canvas></div></section>';
 
     // 内存芯片网格 36 格
@@ -49,10 +49,10 @@
     }
 
     var rows = document.getElementById("isa-rows");
-    ["MDA VIDEO", "FLOPPY CTRL", "(empty)", "(empty)", "(empty)"].forEach(function (n, i) {
+    ["MDA VIDEO", "FLOPPY CTRL", "空置", "空置", "空置"].forEach(function (n, i) {
       var row = document.createElement("div");
       row.className = "rail-row";
-      row.innerHTML = '<span class="name">SLOT ' + (i + 1) + '</span><span class="bar"><i id="isa-' + i + '"></i></span><span class="val" id="isan-' + i + '">' + n + '</span>';
+      row.innerHTML = '<span class="name">槽位 ' + (i + 1) + '</span><span class="bar"><i id="isa-' + i + '"></i></span><span class="val" id="isan-' + i + '">' + n + '</span>';
       rows.appendChild(row);
     });
 
@@ -107,15 +107,15 @@
       dom.cells[i].style.background = i < st.memKb ? "#5b8cff" : "rgba(232,228,216,.12)";
     }
     var bank = Math.min(4, Math.floor(st.memKb / 16) + 1);
-    dom.memBank.textContent = st.postOn ? "BANK " + bank + " / 4" : "BANK —";
-    dom.memTest.textContent = st.postOn ? "READ/WRITE PASS @" + (Math.floor(st.memKb * 1024)).toString(16).toUpperCase() : "—";
+    dom.memBank.textContent = st.postOn ? "测试第 " + bank + " / 4 组" : "待测 —";
+    dom.memTest.textContent = st.postOn ? "读写校验通过 @" + (Math.floor(st.memKb * 1024)).toString(16).toUpperCase() : "—";
 
     var cardNames = ["MDA VIDEO", "FLOPPY CTRL"];
     for (var s = 0; s < 5; s++) {
       var filled = s < st.cardFill;
       dom.isaRows[s].style.width = filled ? "100%" : "0%";
       dom.isaRows[s].style.background = filled ? ["#57c46b", "#e84f8e"][s] : "transparent";
-      dom.isaNames[s].textContent = filled ? cardNames[s] : "(empty)";
+      dom.isaNames[s].textContent = filled ? cardNames[s] : "空置";
       dom.isaNames[s].style.color = filled ? "#f2eee2" : "rgba(232,228,216,0.4)";
     }
 

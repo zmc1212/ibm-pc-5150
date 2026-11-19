@@ -13,20 +13,21 @@
   <div id="frame-dashed"></div>
 
   <div id="card-title" class="card">
-    <div class="t1">IBM&ensp;·&ensp;PERSONAL COMPUTER 5150</div>
-    <div class="t2">Fig. 04 — one 8088, five ISA slots, sixty-four kilobytes of RAM</div>
+    <div class="t1">IBM 个人电脑&ensp;·&ensp;5150</div>
+    <div class="t1-en">IBM · PERSONAL COMPUTER 5150</div>
+    <div class="t2">图 04 — 一颗 8088、五个 ISA 插槽，和六十四 KB 内存</div>
     <div class="t3">拖动旋转 · 滚轮缩放 · 点击零件看标签 · 空格暂停 · R 重播 · 数字键 1-8 跳阶段</div>
   </div>
 
   <div id="card-status" class="card">
-    <div class="k">MODE</div>
-    <div class="mode" id="st-mode">OFF</div>
-    <div class="row"><span class="k">CLK</span><b id="st-clk">—</b></div>
-    <div class="row"><span class="k">RAM</span><b id="st-ram">0 KB</b></div>
-    <div class="row"><span class="k">PARTS</span><b id="st-parts">0 / 22</b></div>
+    <div class="k">模式 MODE</div>
+    <div class="mode" id="st-mode">关机 OFF</div>
+    <div class="row"><span class="k">时钟 CLK</span><b id="st-clk">—</b></div>
+    <div class="row"><span class="k">内存 RAM</span><b id="st-ram">0 KB</b></div>
+    <div class="row"><span class="k">零件 PARTS</span><b id="st-parts">0 / 22</b></div>
   </div>
 
-  <div id="phase-pill"><i id="phase-dot"></i><span id="phase-text">STANDBY</span></div>
+  <div id="phase-pill"><i id="phase-dot"></i><span id="phase-text">待机 STANDBY</span></div>
   <div id="corner-left" class="corner">IBM 5150 · 4.77 MHZ · ISA</div>
   <div id="corner-right" class="corner">BOCA RATON · REV A · 1981</div>
 
@@ -67,5 +68,6 @@
   }, 6000);
 })();
 </script>
+  <script>if (new URLSearchParams(location.search).get("dash") === "0") document.body.classList.add("no-dash");</script>
 </body>
 </html>
